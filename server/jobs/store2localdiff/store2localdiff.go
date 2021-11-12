@@ -5,13 +5,13 @@ import (
 	"runtime/trace"
 	"strconv"
 
-	"github.com/cespare/xxhash"
 	"github.com/golang/protobuf/proto"
+	"github.com/zeebo/xxh3"
 
 	"sigs.k8s.io/kpng/api/localnetv1"
-	"sigs.k8s.io/kpng/server/jobs/store2diff"
 	"sigs.k8s.io/kpng/client/localsink"
 	"sigs.k8s.io/kpng/client/pkg/diffstore"
+	"sigs.k8s.io/kpng/server/jobs/store2diff"
 	"sigs.k8s.io/kpng/server/pkg/endpoints"
 	"sigs.k8s.io/kpng/server/pkg/proxystore"
 	"sigs.k8s.io/kpng/server/pkg/server/watchstate"
@@ -81,7 +81,7 @@ func (s *jobRun) Update(tx *proxystore.Tx, w *watchstate.WatchState) {
 		for _, ei := range endpointInfos {
 			// hash only the endpoint
 			s.buf.Marshal(ei.Endpoint)
-			hash := xxhash.Sum64(s.buf.Bytes())
+			hash := xxh3.Hash(s.buf.Bytes())
 			s.buf.Reset()
 
 			// key is service key + endpoint hash (64 bits, in hex)

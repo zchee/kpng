@@ -24,8 +24,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cespare/xxhash"
 	"github.com/gogo/protobuf/proto"
+	"github.com/zeebo/xxh3"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"k8s.io/klog"
@@ -124,7 +124,7 @@ func injectState(rev uint64, w *watchstate.WatchState) {
 	pb := proto.NewBuffer(make([]byte, 0))
 	hashOf := func(m proto.Message) uint64 {
 		pb.Marshal(m)
-		h := xxhash.Sum64(pb.Bytes())
+		h := xxh3.Hash(pb.Bytes())
 		pb.Reset()
 		return h
 	}

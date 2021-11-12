@@ -32,8 +32,8 @@ import (
 
 	localnetv1 "sigs.k8s.io/kpng/api/localnetv1"
 
-	"github.com/cespare/xxhash"
 	"github.com/spf13/pflag"
+	"github.com/zeebo/xxh3"
 	"k8s.io/klog"
 
 	"sigs.k8s.io/kpng/client"
@@ -132,7 +132,7 @@ func Callback(ch <-chan *client.ServiceEndpoints) {
 			continue
 		}
 
-		mapH := xxhash.Sum64String(svc.Namespace+"/"+svc.Name) % (*mapsCount)
+		mapH := xxh3.HashString(svc.Namespace+"/"+svc.Name) % (*mapsCount)
 		svcOffset := mapOffsets[mapH]
 		mapOffsets[mapH] += uint64(len(endpoints))
 
@@ -324,7 +324,7 @@ func Callback(ch <-chan *client.ServiceEndpoints) {
 			}
 
 			// handle external IPs dispatch
-            extIPsSet := svc.IPs.AllIngress()
+			extIPsSet := svc.IPs.AllIngress()
 
 			extIPs := extIPsSet.V4
 			if set.v6 {

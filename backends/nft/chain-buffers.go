@@ -20,8 +20,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/OneOfOne/xxhash"
 	"github.com/google/btree"
+	"github.com/zeebo/xxh3"
 )
 
 var (
@@ -39,7 +39,7 @@ type chainBuffer struct {
 	kind         string
 	name         string
 	previousHash uint64
-	currentHash  *xxhash.XXHash64
+	currentHash  *xxh3.Hasher
 	buffer       *bytes.Buffer
 	lenMA        int
 	deferred     []func(*chainBuffer)
@@ -60,7 +60,7 @@ func (c *chainBuffer) Read(b []byte) (int, error) {
 
 func (c *chainBuffer) Write(b []byte) (int, error) {
 	if c.currentHash == nil {
-		c.currentHash = xxhash.New64()
+		c.currentHash = xxh3.New()
 	}
 	c.currentHash.Write(b)
 	return c.buffer.Write(b)
@@ -75,7 +75,7 @@ func (c *chainBuffer) WriteString(s string) (n int, err error) {
 	n, err = c.buffer.WriteString(s)
 
 	if c.currentHash == nil {
-		c.currentHash = xxhash.New64()
+		c.currentHash = xxh3.New()
 	}
 	c.currentHash.Write(c.buffer.Bytes()[start:])
 

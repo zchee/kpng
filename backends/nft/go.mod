@@ -9,8 +9,6 @@ replace (
 )
 
 require (
-	github.com/OneOfOne/xxhash v1.2.8
-	github.com/cespare/xxhash v1.1.0
 	github.com/google/btree v1.0.1
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/net v0.0.0-20210929193557-e81a3d93ecf6 // indirect
@@ -33,9 +31,12 @@ replace (
 	k8s.io/kubernetes => k8s.io/kubernetes v0.21.2
 )
 
+require github.com/zeebo/xxh3 v1.0.1
+
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
+	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/spf13/cobra v1.2.1 // indirect
 	google.golang.org/grpc v1.41.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect

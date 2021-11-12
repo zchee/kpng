@@ -21,8 +21,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/cespare/xxhash"
 	"github.com/google/btree"
+	"github.com/zeebo/xxh3"
 	"google.golang.org/protobuf/proto"
 )
 
@@ -94,7 +94,7 @@ func (s *DiffStore) SetJSON(key []byte, value interface{}) {
 		panic(fmt.Errorf("failed to JSON marshal value: %w", err))
 	}
 
-	h := xxhash.Sum64(valueBytes)
+	h := xxh3.Hash(valueBytes)
 	s.Set(key, h, value)
 }
 
@@ -105,7 +105,7 @@ func (s *DiffStore) SetProto(key []byte, value proto.Message) {
 		panic(fmt.Errorf("failed to proto marshal value: %w", err))
 	}
 
-	h := xxhash.Sum64(valueBytes)
+	h := xxh3.Hash(valueBytes)
 	s.Set(key, h, value)
 }
 

@@ -7,8 +7,8 @@ import (
 	"path"
 	"time"
 
-	"github.com/cespare/xxhash"
 	"github.com/gogo/protobuf/proto"
+	"github.com/zeebo/xxh3"
 	"gopkg.in/yaml.v2"
 	"k8s.io/klog"
 
@@ -39,7 +39,7 @@ func (j *Job) Run(ctx context.Context) {
 			panic(err)
 		}
 
-		h := xxhash.Sum64(pb.Bytes())
+		h := xxh3.Hash(pb.Bytes())
 		return h
 	}
 
@@ -100,7 +100,7 @@ func (j *Job) Run(ctx context.Context) {
 			diffSvcs.Set(fullName, hashOf(si), si)
 
 			if len(se.Endpoints) != 0 {
-				h := xxhash.New()
+				h := xxh3.New()
 				for _, ep := range se.Endpoints {
 					ep.Namespace = svc.Namespace
 					ep.SourceName = svc.Name

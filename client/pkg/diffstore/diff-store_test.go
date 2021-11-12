@@ -19,7 +19,7 @@ package diffstore
 import (
 	"fmt"
 
-	"github.com/cespare/xxhash"
+	"github.com/zeebo/xxh3"
 )
 
 func ExampleDiffStore() {
@@ -27,7 +27,7 @@ func ExampleDiffStore() {
 
 	set := func(k, v string) {
 		fmt.Printf("set %v to %s\n", k, v)
-		s.Set([]byte(k), xxhash.Sum64([]byte(v)), v)
+		s.Set([]byte(k), xxh3.Hash([]byte(v)), v)
 	}
 
 	set("a", "alice")

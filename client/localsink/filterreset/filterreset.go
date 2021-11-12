@@ -1,7 +1,7 @@
 package filterreset
 
 import (
-	"github.com/cespare/xxhash"
+	"github.com/zeebo/xxh3"
 
 	localnetv1 "sigs.k8s.io/kpng/api/localnetv1"
 	"sigs.k8s.io/kpng/client/localsink"
@@ -49,7 +49,7 @@ func (s *Sink) Send(op *localnetv1.OpItem) (err error) {
 			s.seen[path] = true
 		}
 
-		h := xxhash.Sum64(set.Bytes)
+		h := xxh3.Hash(set.Bytes)
 
 		if s.memory[path].hash == h {
 			return // updated to the same value => filtered

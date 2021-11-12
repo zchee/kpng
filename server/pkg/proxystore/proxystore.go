@@ -21,9 +21,9 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/cespare/xxhash"
 	"github.com/gogo/protobuf/proto"
 	"github.com/google/btree"
+	"github.com/zeebo/xxh3"
 	"k8s.io/klog"
 
 	localnetv1 "sigs.k8s.io/kpng/api/localnetv1"
@@ -69,7 +69,7 @@ func (s *Store) hashOf(m proto.Message) (h uint64) {
 	if err := s.pb.Marshal(m); err != nil {
 		panic(err) // should not happen
 	}
-	h = xxhash.Sum64(s.pb.Bytes())
+	h = xxh3.Hash(s.pb.Bytes())
 	s.pb.Reset()
 	return h
 }

@@ -8,7 +8,7 @@ replace (
 )
 
 require (
-	github.com/cespare/xxhash v1.1.0
+	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/gobwas/glob v0.2.3
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/protobuf v1.5.2
@@ -47,9 +47,12 @@ require (
 	sigs.k8s.io/kpng/client v0.0.0-20211016170559-7c3453c01431
 )
 
+require github.com/zeebo/xxh3 v1.0.1
+
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/google/go-cmp v0.5.5 // indirect
+	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
